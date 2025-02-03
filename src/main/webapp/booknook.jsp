@@ -77,7 +77,7 @@
                     <td><%= book.getBookAuthor() %></td>
                     <td><%= book.getBookPrice() %></td>
                     <td><%= book.getQuantity() %></td>
-                    <td><%= book.getReleaseDate() %></td>
+                    <td><%=book.getReleaseDate() %></td>
                     <td><button>Add to Cart</button></td>
                 </tr>
                 <%
