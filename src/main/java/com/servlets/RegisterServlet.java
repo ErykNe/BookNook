@@ -17,7 +17,6 @@ public class RegisterServlet extends HttpServlet {
 
     public RegisterServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,12 +24,16 @@ public class RegisterServlet extends HttpServlet {
 		String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        
-        registerUser(username, email, password, getServletContext());      
-        
+
+		try {
+			registerUser(username, email, password, getServletContext());
+		} catch (Exception e) {
+			request.setAttribute("message", "Failed to register user in database");
+			e.printStackTrace();
+		}
+
 		request.setAttribute("message", "User registered successfully!");
 
-        // Forward back to index.jsp with parameter
         request.getRequestDispatcher("index.jsp?page=register").forward(request, response);
 	}
 
@@ -39,7 +42,6 @@ public class RegisterServlet extends HttpServlet {
     		try {
 				Class.forName("org.sqlite.JDBC");
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -49,15 +51,12 @@ public class RegisterServlet extends HttpServlet {
         	try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
         	        PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        	        // Set values for the prepared statement
         	        pstmt.setString(1, username);
         	        pstmt.setString(2, email);
         	        pstmt.setString(3, password);
         	        pstmt.setDouble(4, 1000.50);
 
-        	        // Execute the query
         	        pstmt.executeUpdate();
-        	        System.out.println("User successfully registered in the database!");
 
         	    } catch (SQLException e) {
         	        e.printStackTrace();

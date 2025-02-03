@@ -1,6 +1,7 @@
 package com.Utils;
 
 import com.models.BookDao;
+import com.models.AccessoryDao;
 
 import javax.servlet.ServletContext;
 import java.sql.*;
@@ -57,5 +58,25 @@ public class Utils {
         }
 
         return books;
+    }
+
+    public static ArrayList<AccessoryDao> getAccessories(Connection conn) {
+        String sql = "SELECT * FROM Accessories";
+        ArrayList<AccessoryDao> accessories = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()){
+            while (rs.next()) {
+                int id = rs.getInt("AccessoryID");
+                String name = rs.getString("AccessoryName");
+                double price = rs.getDouble("AccessoryPrice");
+                int quantity = rs.getInt("Quantity");
+
+                accessories.add(new AccessoryDao(id, name, price, quantity));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accessories;
     }
 }
