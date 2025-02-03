@@ -8,11 +8,15 @@
     <%@ include file="css/style.css"%>
 </style>
 <%
-    ArrayList<BookDao> books = null;
     ArrayList<AccessoryDao> accessories = null;
+    ArrayList<BookDao> books = null;
     try (Connection conn = Utils.getConnection(application)) {
-        books = Utils.getBooks(conn);
-        accessories = Utils.getAccessories(conn);
+        books = request.getAttribute("books") != null &&  request.getAttribute("books") != "noresult"
+                ? (ArrayList<BookDao>) request.getAttribute("books") : Utils.getBooks(conn);
+        if(request.getAttribute("books") == "noresult"){
+            books = null;
+        }
+        accessories = request.getAttribute("books") != null ? null : Utils.getAccessories(conn);
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -22,7 +26,7 @@
     <div class="search-bar">
         <form action="<%=request.getContextPath()%>/SearchServlet" method="post">
             <img src="images/lupe.png">
-            <input type="text" placeholder="Search For Items" id="search-input" name="search-input">
+            <input type="text" placeholder="Search For Books" id="search-input" name="search-input">
             <button type="submit" style="display: none;">Search</button>
         </form>
     </div>
@@ -90,6 +94,10 @@
         </div>
         <hr>
         <div class="accessories-table">
+            <%
+                if (accessories != null && !accessories.isEmpty()) {
+
+            %>
             <table>
                 <tr>
                     <th>Accessory</th>
@@ -102,7 +110,7 @@
                     <td colspan="4"></td>
                 </tr>
                 <%
-                    if (accessories != null && !accessories.isEmpty()) {
+
                         for (AccessoryDao accessory : accessories) {
                 %>
                 <tr class="item-row">
@@ -114,14 +122,7 @@
                 </tr>
                 <%
                     }
-                } else {
-                %>
-                <tr>
-                    <td colspan="5" style="text-align:center;">No accessories available.</td>
-                </tr>
-                <%
-                    }
-                %>
+                } %>
             </table>
         </div>
     </div>
