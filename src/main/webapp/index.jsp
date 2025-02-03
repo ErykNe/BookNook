@@ -8,8 +8,8 @@
 <body>
     <div class="navbar">
         <div class="left-nav">
-            <a href="?page=register">Register</a>
-            <a href="?page=login">Login</a>
+            <a href="<%=request.getContextPath()%>/index.jsp?page=register">Register</a>
+            <a href="<%=request.getContextPath()%>/index.jsp?page=login">Login</a>
         </div>
         <div class="right-nav">
             <a href="?page=cart"><img src="images/3737369.png" alt="Cart" /></a>

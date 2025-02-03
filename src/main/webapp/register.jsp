@@ -27,6 +27,7 @@
         if (message != null) {
     %>
     <p style="color: green;"><%= message %></p>
+    <p><a href="<%=request.getContextPath()%>/index.jsp?page=login">Login</a></p>
     <p><a href="<%=request.getContextPath()%>/index.jsp?page=booknook">Go back to BookNook</a></p>
     <%
         }
