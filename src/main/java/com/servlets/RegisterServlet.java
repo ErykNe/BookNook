@@ -18,7 +18,6 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Forward the request to the register.jsp page
 		request.getRequestDispatcher("/register.jsp").forward(request, response);
 	}
 
@@ -49,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
 			pstmt.setString(1, username);
 			pstmt.setString(2, email);
 			pstmt.setString(3, password);
-			pstmt.setDouble(4, 1000.50);
+			pstmt.setDouble(4, 0);
 
 			pstmt.executeUpdate();
 		}

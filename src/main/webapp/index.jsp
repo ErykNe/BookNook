@@ -6,28 +6,36 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="left-nav">
-            <a href="<%=request.getContextPath()%>/index.jsp?page=register">Register</a>
-            <a href="<%=request.getContextPath()%>/index.jsp?page=login">Login</a>
-        </div>
-        <div class="right-nav">
-            <a href="?page=cart"><img src="images/3737369.png" alt="Cart" /></a>
-        </div>        
+<div class="navbar">
+    <div class="left-nav">
+        <a href="<%=request.getContextPath()%>/index.jsp?page=booknook">BookNook</a>
+        <a href="<%=request.getContextPath()%>/index.jsp?page=register">Register</a>
+        <a href="<%=request.getContextPath()%>/index.jsp?page=login">Login</a>
     </div>
-
-    <main>
-
+    <div class="right-nav">
         <%
-            String pageName = request.getParameter("page");
-            if (pageName == null) {
-                pageName = "booknook.jsp";
-            } else {
-                pageName = pageName + ".jsp";
+            if (session != null && session.getAttribute("username") != null) {
+                String username = (String) session.getAttribute("username");
+                Double balance = (Double) session.getAttribute("balance");
+        %>
+        <span>Welcome, <%= username %>! Balance: $<%= balance %></span>
+        <%
             }
         %>
-        <jsp:include page="<%= pageName %>"/>
+        <a href="?page=cart"><img src="images/3737369.png" alt="Cart" /></a>
+    </div>
+</div>
 
-    </main>
+<main>
+    <%
+        String pageName = request.getParameter("page");
+        if (pageName == null) {
+            pageName = "booknook.jsp";
+        } else {
+            pageName = pageName + ".jsp";
+        }
+    %>
+    <jsp:include page="<%= pageName %>"/>
+</main>
 </body>
 </html>
