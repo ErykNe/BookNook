@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 
@@ -78,5 +80,88 @@ public class Utils {
             e.printStackTrace();
         }
         return accessories;
+    }
+
+    public static Map<BookDao, Integer> getBooksByIDs(Connection conn, ArrayList<Integer> bookIds) {
+        // Step 1: Count the frequency of each book ID in the list.
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (Integer bookId : bookIds) {
+            frequencyMap.put(bookId, frequencyMap.getOrDefault(bookId, 0) + 1);
+        }
+
+        // Step 2: For each unique book ID, query the database and store the result in a HashMap.
+        Map<BookDao, Integer> booksWithCount = new HashMap<>();
+        String sql = "SELECT * FROM Books WHERE BookID = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Loop over the unique book IDs
+            for (Integer bookId : frequencyMap.keySet()) {
+                // Set the parameter in the prepared statement
+                stmt.setInt(1, bookId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    // If the book is found, create the BookDao and add it to the map with its count.
+                    if (rs.next()) {
+                        int id = rs.getInt("BookID");
+                        String title = rs.getString("BookTitle");
+                        String author = rs.getString("BookAuthor");
+                        double price = rs.getDouble("BookPrice");
+                        int quantity = rs.getInt("Quantity");
+                        // Parse the release date using a custom formatter.
+                        LocalDate releaseDate = null;
+                        String dateString = rs.getString("ReleaseDate");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd");
+                        if (dateString != null && !dateString.isEmpty()) {
+                            try {
+                                releaseDate = LocalDate.parse(dateString, formatter);
+                            } catch (DateTimeParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        BookDao book = new BookDao(id, title, author, price, quantity, releaseDate);
+                        booksWithCount.put(book, frequencyMap.get(bookId));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Map.Entry<BookDao, Integer> entry : booksWithCount.entrySet()) {
+            BookDao book = entry.getKey();
+            Integer frequency = entry.getValue();
+        }
+
+        return booksWithCount;
+    }
+    public static Map<AccessoryDao, Integer> getAccessoriesByIDs(Connection conn, ArrayList<Integer> accessoryIds) {
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (Integer accessoryId : accessoryIds) {
+            frequencyMap.put(accessoryId, frequencyMap.getOrDefault(accessoryId, 0) + 1);
+        }
+
+        Map<AccessoryDao, Integer> accessoriesWithCount = new HashMap<>();
+        String sql = "SELECT * FROM Accessories WHERE AccessoryID = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            for (Integer accessoryId : frequencyMap.keySet()) {
+                stmt.setInt(1, accessoryId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        int id = rs.getInt("AccessoryID");
+                        String name = rs.getString("AccessoryName");
+                        double price = rs.getDouble("AccessoryPrice");
+                        int quantity = rs.getInt("Quantity");
+
+                        AccessoryDao accessory = new AccessoryDao(id, name, price, quantity);
+                        accessoriesWithCount.put(accessory, frequencyMap.get(accessoryId));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return accessoriesWithCount;
     }
 }

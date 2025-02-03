@@ -23,6 +23,7 @@
 
 %>
 <div class="booknook">
+
     <div class="search-bar">
         <form action="<%=request.getContextPath()%>/SearchServlet" method="post">
             <img src="images/lupe.png">
@@ -30,6 +31,7 @@
             <button type="submit" style="display: none;">Search</button>
         </form>
     </div>
+    <form action="<%=request.getContextPath()%>/CartServlet" method="post">
     <div class="tables">
         <div class="books-table">
             <table>
@@ -78,7 +80,9 @@
                     <td><%= book.getBookPrice() %></td>
                     <td><%= book.getQuantity() %></td>
                     <td><%= book.getReleaseDate() %></td>
-                    <td><button>Add to Cart</button></td>
+                    <td>
+                        <button type="submit" id="BookID" name="BookID" value="<%= book.getBookID()%>">Add to Cart</button>
+                    </td>
                 </tr>
                 <%
                     }
@@ -118,7 +122,9 @@
                     <td><%= accessory.getAccessoryName() %></td>
                     <td><%= accessory.getAccessoryPrice() %></td>
                     <td><%= accessory.getQuantity() %></td>
-                    <td><button>Add to Cart</button></td>
+                    <td>
+                        <button type="submit" id="AccessoryID" name="AccessoryID" value="<%= accessory.getAccessoryID()%>">Add to Cart</button>
+                    </td>
                 </tr>
                 <%
                     }
@@ -126,5 +132,5 @@
             </table>
         </div>
     </div>
-
+    </form>
 </div>
