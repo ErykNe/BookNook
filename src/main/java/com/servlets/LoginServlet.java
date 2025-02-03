@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         boolean isError = false;
+        boolean isAdmin = false;
 
         try {
             if (authenticateUser(username, password)) {
