@@ -17,9 +17,15 @@
             if (session != null && session.getAttribute("username") != null) {
                 String username = (String) session.getAttribute("username");
                 Double balance = (Double) session.getAttribute("balance");
+                String role = (String) session.getAttribute("role");
         %>
         <span>Welcome, <%= username %>! Balance: $<%= balance %></span>
         <%
+            if ("admin".equals(role)) {
+        %>
+        <a href="<%=request.getContextPath()%>/UserListServlet">Admin Panel</a>
+        <%
+                }
             }
         %>
         <a href="?page=cart"><img src="images/3737369.png" alt="Cart" /></a>

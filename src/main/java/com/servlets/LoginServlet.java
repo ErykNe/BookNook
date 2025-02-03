@@ -25,14 +25,15 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         boolean isError = false;
-        boolean isAdmin = false;
 
         try {
-            if (authenticateUser(username, password)) {
+            String role = authenticateUser(username, password);
+            if (role != null) {
                 double balance = getUserBalance(username);
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setAttribute("balance", balance);
+                session.setAttribute("role", role);
                 request.setAttribute("message", "Login successful!");
             } else {
                 request.setAttribute("message", "Invalid username or password.");
@@ -48,10 +49,10 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("index.jsp?page=login").forward(request, response);
     }
 
-    private boolean authenticateUser(String username, String password) throws ClassNotFoundException, SQLException {
+    private String authenticateUser(String username, String password) throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
-        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
+        String sql = "SELECT Role FROM Users WHERE Username = ? AND Password = ?";
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -60,7 +61,11 @@ public class LoginServlet extends HttpServlet {
             pstmt.setString(2, password);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
+                if (rs.next()) {
+                    return rs.getString("Role");
+                } else {
+                    return null;
+                }
             }
         }
     }
