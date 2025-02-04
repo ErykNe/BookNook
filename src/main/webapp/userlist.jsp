@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.models.UserDao" %>
-
+<style>
+    <%@ include file="css/style.css"%>
+</style>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +11,20 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="navbar.jsp" />
+
 <h2>User List</h2>
+<% String message = (String) request.getAttribute("message"); %>
+<% if (message != null) { %>
+<p><%= message %></p>
+<% } %>
+
 <table border="1">
     <tr>
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Action</th>
     </tr>
     <%
         List<UserDao> users = (List<UserDao>) request.getAttribute("users");
@@ -25,12 +35,18 @@
         <td><%= user.getUsername() %></td>
         <td><%= user.getEmail() %></td>
         <td><%= user.getRole() %></td>
+        <td>
+            <form action="<%=request.getContextPath()%>/DeleteUserServlet" method="post">
+                <input type="hidden" name="username" value="<%= user.getUsername() %>">
+                <input type="submit" value="Delete">
+            </form>
+        </td>
     </tr>
     <%
             }
         }
     %>
 </table>
-<a href="<%=request.getContextPath()%>/additem.jsp">Add Item</a>
+<a class="add" href="<%=request.getContextPath()%>/additem.jsp">Add Item</a>
 </body>
 </html>
