@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 @WebServlet("/UserListServlet")
 public class UserListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -35,6 +34,10 @@ public class UserListServlet extends HttpServlet {
         } else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied.");
         }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 
     private List<UserDao> getUsers() throws Exception {

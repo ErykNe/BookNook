@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User List</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<jsp:include page="navbar.jsp" />
+<div style="margin-top: 80px">
 <form action="<%=request.getContextPath()%>/AddItemServlet" method="post">
   <table>
     <tr>
@@ -23,3 +32,4 @@
   </table>
   <button type="submit">Add Book</button>
 </form>
+</div>

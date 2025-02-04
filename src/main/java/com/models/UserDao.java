@@ -1,7 +1,6 @@
 package com.models;
 
 public class UserDao {
-
     public String username;
     public String email;
     private String role;

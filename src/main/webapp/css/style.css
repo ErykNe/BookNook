@@ -168,7 +168,7 @@ a{
     color: cadetblue;
     padding: 5px;
 }
-.admin-panel:hover,.orders:hover{
+.admin-panel:hover,.orders:hover,.add:hover{
     background-color: #555;
     border-radius: 5px;
 }
@@ -176,6 +176,15 @@ a{
     color: white;
     margin-left: 5px;
     padding: 5px;
+}
+.add{
+    color: white;
+    border: black solid 1px;
+    padding: 10px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 100px;
+    background-color: #aab8b2;
 }
 .cart {
     justify-content: center;
