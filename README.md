@@ -1,3 +1,7 @@
 # todo:
 - dokonanie zakupu przez uzytkownika
-- sprawdzanie przed dodaniem do koszyka lub wejsciem w koszyk czy uzytkownik jest zalogowany
+- zliczanie quantity przy zmianie
+- dodawanie akcesoriow
+- usuwanie ksiazek i akcesoriow
+- edit
+- word
