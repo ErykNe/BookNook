@@ -153,3 +153,43 @@ a{
     margin-left: 5px;
     padding: 5px;
 }
+.cart {
+    justify-content: center;
+    text-align: center;
+}
+.cart img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.cart table {
+    margin: 30px auto 0;
+    width: 60%;
+    border-spacing: 20px;
+}
+.cart hr {
+    margin: 30px auto 0;
+    width: 60%;
+    justify-content: center;
+    text-align: center;
+}
+.summary-cart {
+    margin: 30px auto 0;
+    width: 60%;
+}
+.summary-cart form {
+    display: inline-list-item;
+}
+.summary-form  a {
+    margin-right: 30%;
+    font-size: x-large;
+    text-decoration: underline;
+}
+.summary-form button {
+    margin-left: 30%;
+}
+.cart h1 {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
