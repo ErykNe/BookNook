@@ -30,14 +30,34 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
+
+    double totalPrice = 0.0;
+
+    if (books != null) {
+        for (Map.Entry<BookDao, Integer> entry : books.entrySet()) {
+            BookDao book = entry.getKey();
+            double count = entry.getValue();
+            totalPrice += book.bookPrice * count;
+        }
+    }
+
+    if (accessories != null) {
+        for (Map.Entry<AccessoryDao, Integer> entry : accessories.entrySet()) {
+            AccessoryDao accessory = entry.getKey();
+            int count = entry.getValue();
+            totalPrice += accessory.accessoryPrice * count;
+        }
+    }
+
+
 %>
 
 <div class="cart">
-    <div>
-        <%
-            if ((books != null && !books.isEmpty()) || (accessories != null && !accessories.isEmpty())) {
+    <%
+        if ((books != null && !books.isEmpty()) || (accessories != null && !accessories.isEmpty())) {
 
-        %>
+    %>
+    <div>
     <form action="<%=request.getContextPath()%>/RemoveCartServlet" method="post">
     <div class="books-table">
         <table>
@@ -103,16 +123,26 @@
             </tr>
             <%
                     }
-                } }else {
-            %>
-            <tr>
-                <td colspan="7" style="text-align:center;">The cart is empty.</td>
-            </tr>
-            <%
-                }
-            %>
+            }
+                %>
         </table>
     </div>
     </form>
+    <hr>
+    <div class="summary-cart">
+        <form action="/OrderServlet" method="post">
+            <a>Total Price: $<%= String.format("%.2f", totalPrice) %></a>
+            <button type="submit">Place order</button>
+        </form>
     </div>
+    </div>
+    <%
+    }else {
+    %>
+    <tr>
+        <td colspan="7" style="text-align:center;">The cart is empty.</td>
+    </tr>
+    <%
+        }
+    %>
 </div>

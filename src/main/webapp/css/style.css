@@ -147,7 +147,30 @@ main {
     transition: transform 0.3s;
 }
 .cart table {
-    margin-top: 30px;
-    width: 50%;
+    margin: 30px auto 0;
+    width: 60%;
     border-spacing: 20px;
+    justify-content: center;
+    text-align: center;
+}
+.cart hr {
+    margin: 30px auto 0;
+    width: 60%;
+    justify-content: center;
+    text-align: center;
+}
+.summary-cart {
+    margin: 30px auto 0;
+    width: 60%;
+}
+.summary-cart form {
+    display: inline-list-item;
+}
+form a {
+    margin-right: 30%;
+    font-size: x-large;
+    text-decoration: underline;
+}
+form button {
+    margin-left: 30%;
 }
