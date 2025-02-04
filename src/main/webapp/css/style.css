@@ -49,21 +49,39 @@ main {
     align-items: center;
 }
 
+.cart-disabled {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    user-select: none;
+    user-focus: none;
+    user-input: none;
+    transition: none;
+}
+.cart-disabled:hover {
+    transform: none;
+}
+.cart-disabled:active {
+    transform: none;
+}
+
+
 .right-nav p {
     margin-right: 10px;
     font-size: 16px;
 }
-.right-nav img {
+.cart-enabled {
     width: 25px;
     height: 25px;
     cursor: pointer;
     transition: transform 0.3s;
 }
 
-.right-nav img:hover {
+.cart-enabled:hover {
     transform: scale(1.1);
 }
-.right-nav img:active {
+.cart-enabled:active {
     transform: scale(1.3);
 }
 
