@@ -11,7 +11,8 @@
         Double balance = (Double) session.getAttribute("balance");
         String role = (String) session.getAttribute("role");
     %>
-    <span>Welcome, <%= username %>! Balance: $<%= balance %></span>
+    <a>Welcome, <%= username %>!</a>
+    <a>Balance: $<%= balance %></a>
     <%
       if ("admin".equals(role)) {
     %>
