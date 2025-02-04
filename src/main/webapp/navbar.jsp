@@ -17,10 +17,14 @@
     %>
     <a class="admin-panel" href="<%=request.getContextPath()%>/UserListServlet">Admin Panel</a>
     <%
-        }
       }
     %>
-    <a href="<%=request.getContextPath()%>/index.jsp?page=cart"><img src="images/3737369.png" alt="Cart" /></a>
+    <a href="<%=request.getContextPath()%>/index.jsp?page=cart"><img class="cart-enabled" src="images/3737369.png" alt="Cart" /></a>
     <a class="orders" href="<%=request.getContextPath()%>/index.jsp?page=orders">Orders</a>
+    <%
+    } else {
+    %>
+    <a><img class="cart-disabled" src="images/3737369.png" alt="Cart" /></a>
+    <% } %>
   </div>
 </div>
