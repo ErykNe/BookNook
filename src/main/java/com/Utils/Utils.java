@@ -30,7 +30,7 @@ public class Utils {
         String sql = "SELECT * FROM Books";
         ArrayList<BookDao> books = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery()) {
+             ResultSet rs = stmt.executeQuery()) {
 
             // Iterate through the result set
             while (rs.next()) {
@@ -67,7 +67,7 @@ public class Utils {
         String sql = "SELECT * FROM Accessories";
         ArrayList<AccessoryDao> accessories = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()){
+             ResultSet rs = stmt.executeQuery()){
             while (rs.next()) {
                 int id = rs.getInt("AccessoryID");
                 String name = rs.getString("AccessoryName");

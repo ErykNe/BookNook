@@ -22,6 +22,9 @@ public class SearchServlet extends HttpServlet {
     public SearchServlet() {
         super();
     }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String searchStr = request.getParameter("search-input");
