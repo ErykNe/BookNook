@@ -20,7 +20,7 @@ public class AddItemServlet extends HttpServlet {
         String bookAuthor = request.getParameter("bookAuthor");
         double bookPrice = Double.parseDouble(request.getParameter("bookPrice"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        Date releaseDate = Date.valueOf(request.getParameter("releaseDate"));
+        String releaseDate = request.getParameter("releaseDate");
 
         try {
             addBook(bookTitle, bookAuthor, bookPrice, quantity, releaseDate);
@@ -33,7 +33,7 @@ public class AddItemServlet extends HttpServlet {
         request.getRequestDispatcher("additem.jsp").forward(request, response);
     }
 
-    private void addBook(String bookTitle, String bookAuthor, double bookPrice, int quantity, Date releaseDate) throws Exception {
+    private void addBook(String bookTitle, String bookAuthor, double bookPrice, int quantity, String releaseDate) throws Exception {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "INSERT INTO Books (BookTitle, BookAuthor, BookPrice, Quantity, ReleaseDate) VALUES (?, ?, ?, ?, ?)";
@@ -44,7 +44,7 @@ public class AddItemServlet extends HttpServlet {
             pstmt.setString(2, bookAuthor);
             pstmt.setDouble(3, bookPrice);
             pstmt.setInt(4, quantity);
-            pstmt.setDate(5, releaseDate);
+            pstmt.setString(5, releaseDate);
             pstmt.executeUpdate();
         }
     }

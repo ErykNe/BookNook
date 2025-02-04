@@ -1,8 +1,5 @@
 package com.servlets;
 
-import com.models.AccessoryDao;
-import com.models.BookDao;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +9,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 @WebServlet("/RemoveCartServlet")
