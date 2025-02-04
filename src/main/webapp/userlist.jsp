@@ -2,6 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.models.UserDao" %>
 
+<style>
+    <%@ include file="css/style.css"%>
+</style>
+
 <!DOCTYPE html>
 <html>
 <head>

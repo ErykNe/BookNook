@@ -146,3 +146,8 @@ main {
     cursor: pointer;
     transition: transform 0.3s;
 }
+.cart table {
+    margin-top: 30px;
+    width: 50%;
+    border-spacing: 20px;
+}

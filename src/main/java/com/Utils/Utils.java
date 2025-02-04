@@ -43,6 +43,7 @@ public class Utils {
                 // Parse the release date using the custom formatter
                 LocalDate releaseDate = null;
                 String dateString = rs.getString("ReleaseDate");
+                System.out.println(dateString);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd");
                 if (dateString != null && !dateString.isEmpty()) {
                     try {

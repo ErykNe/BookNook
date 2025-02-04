@@ -5,6 +5,10 @@
 <%@ page import="com.models.AccessoryDao" %>
 <%@ page import="java.util.Map" %>
 
+<style>
+    <%@ include file="css/style.css"%>
+</style>
+
 <%
     ArrayList<Integer> bookCart = null;
     ArrayList<Integer> accessoriesCart = null;
@@ -26,26 +30,26 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-
 %>
 
 <div class="cart">
-    <div class="tables">
-    <div class="books-table">
+    <div>
         <%
-            if (books != null && !books.isEmpty()) {
+            if ((books != null && !books.isEmpty()) || (accessories != null && !accessories.isEmpty())) {
 
         %>
+    <form action="<%=request.getContextPath()%>/RemoveCartServlet" method="post">
+    <div class="books-table">
         <table>
-
+            <% if (books != null && !books.isEmpty()) {%>
             <tr>
                 <th>Book</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Price</th>
                 <th>Release Date</th>
-                <th></th>
                 <th>Quantity</th>
+                <th>Cart</th>
             </tr>
             <tr class="spacer-row">
                 <td colspan="4"></td>
@@ -62,34 +66,24 @@
                 <td><%= book.getBookAuthor() %></td>
                 <td><%= book.getBookPrice() %></td>
                 <td><%= book.getReleaseDate() %></td>
-                <td></td>
-                <td><%= frequency.toString()%></td>
+                <td><input type="number" min="1" max=<%=book.getQuantity()%> value="<%= frequency.toString()%>"></td>
+                <td><button type="submit" id="RemoveBookID" name="RemoveBookID" value="<%=book.getBookID()%>">Remove from Cart</button></td>
             </tr>
             <%
+                    }
                 }
-                } else {
             %>
-            <tr>
-                <td colspan="7" style="text-align:center;">No books available.</td>
-            </tr>
-
         </table>
-        <%
-
-            }
-        %>
     </div>
     <div class="accessories-table">
-        <%
-            if (accessories != null && !accessories.isEmpty()) {
-
-        %>
         <table>
+            <% if (accessories != null && !accessories.isEmpty()) {%>
             <tr>
                 <th>Accessory</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Cart</th>
             </tr>
             <tr class="spacer-row">
                 <td colspan="4"></td>
@@ -104,15 +98,21 @@
                 <td><img src="images/pack.png"></td>
                 <td><%= accessory.getAccessoryName() %></td>
                 <td><%= accessory.getAccessoryPrice() %></td>
-                <td><%= frequency.toString() %></td>
+                <td><input type="number" min="1" max=<%=accessory.getQuantity()%> value="<%= frequency.toString()%>"></td>
+                <td><button type="submit" id="RemoveAccessoryID" name="RemoveAccessoryID" value="<%= accessory.getAccessoryID()%>">Remove from Cart</button></td>
             </tr>
             <%
                     }
-                 %>
+                } }else {
+            %>
+            <tr>
+                <td colspan="7" style="text-align:center;">The cart is empty.</td>
+            </tr>
+            <%
+                }
+            %>
         </table>
-        <%
-            }
-        %>
     </div>
+    </form>
     </div>
 </div>
