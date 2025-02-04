@@ -28,8 +28,8 @@
                 }
             }
         %>
-        <a href="?page=cart"><img src="images/3737369.png" alt="Cart" /></a>
-        <a class="orders" href="?page=orders">Orders</a>
+        <a href="<%=request.getContextPath()%>/index.jsp?page=cart"><img src="images/3737369.png" alt="Cart" /></a>
+        <a class="orders" href="<%=request.getContextPath()%>/index.jsp?page=orders">Orders</a>
     </div>
 </div>
 

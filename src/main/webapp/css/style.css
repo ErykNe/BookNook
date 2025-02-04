@@ -135,40 +135,21 @@ main {
     margin-top: 25px;
 }
 
-/* style for cart.jsp */
-.cart {
-    justify-content: center;
-    text-align: center;
+a{
+    text-decoration: none;
 }
-.cart img {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    transition: transform 0.3s;
+.admin-panel{
+    margin-left: 10px;
+    margin-right: 10px;
+    color: cadetblue;
+    padding: 5px;
 }
-.cart table {
-    margin: 30px auto 0;
-    width: 60%;
-    border-spacing: 20px;
+.admin-panel:hover,.orders:hover{
+    background-color: #555;
+    border-radius: 5px;
 }
-.cart hr {
-    margin: 30px auto 0;
-    width: 60%;
-    justify-content: center;
-    text-align: center;
-}
-.summary-cart {
-    margin: 30px auto 0;
-    width: 60%;
-}
-.summary-cart form {
-    display: inline-list-item;
-}
-form a {
-    margin-right: 30%;
-    font-size: x-large;
-    text-decoration: underline;
-}
-form button {
-    margin-left: 30%;
+.orders{
+    color: white;
+    margin-left: 5px;
+    padding: 5px;
 }
