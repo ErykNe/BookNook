@@ -49,39 +49,21 @@ main {
     align-items: center;
 }
 
-.cart-disabled {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    -webkit-user-drag: none;
-    user-select: none;
-    user-focus: none;
-    user-input: none;
-    transition: none;
-}
-.cart-disabled:hover {
-    transform: none;
-}
-.cart-disabled:active {
-    transform: none;
-}
-
-
 .right-nav p {
     margin-right: 10px;
     font-size: 16px;
 }
-.cart-enabled {
+.right-nav img {
     width: 25px;
     height: 25px;
     cursor: pointer;
     transition: transform 0.3s;
 }
 
-.cart-enabled:hover {
+.right-nav img:hover {
     transform: scale(1.1);
 }
-.cart-enabled:active {
+.right-nav img:active {
     transform: scale(1.3);
 }
 
@@ -162,7 +144,6 @@ main {
 a{
     text-decoration: none;
 }
-/* style for userlist.jsp */
 .admin-panel{
     margin-left: 10px;
     margin-right: 10px;
@@ -181,14 +162,12 @@ a{
 .add{
     color: white;
     border: black solid 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-top: 70px;
+    padding: 10px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 100px;
     background-color: #aab8b2;
 }
-/* style for cart.jsp */
 .cart {
     justify-content: center;
     text-align: center;
@@ -229,22 +208,3 @@ a{
     padding-top: 25px;
     padding-bottom: 25px;
 }
-/* style for additem.jsp */
-.add-item-panel {
-    justify-content: center;
-    text-align: center;
-    margin-top: 100px;
-}
-.add-item-panel table {
-    margin-left: auto;
-    margin-right: auto;
-    border-spacing: 20px;
-}
-.add-item-panel input {
-    border-radius: 10px;
-    border: 1px solid rgba(2, 2, 2, 0.5);
-}
-.add-item-panel p {
-    margin-top: 25px;
-}
-

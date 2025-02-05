@@ -7,6 +7,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
+
 <main>
     <%
         String pageName = request.getParameter("page");
