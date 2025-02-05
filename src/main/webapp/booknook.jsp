@@ -20,10 +20,8 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-
 %>
 <div class="booknook">
-
     <div class="search-bar">
         <form action="<%=request.getContextPath()%>/SearchServlet" method="post">
             <img src="images/lupe.png">
@@ -37,8 +35,8 @@
                 <table>
                     <tr>
                         <th>Book</th>
-                        <th><a href="?sortBy=title">Title</a></th>
-                        <th><a href="?sortBy=author">Author</a></th>
+                        <th>Title</th>
+                        <th>Author</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Release Date</th>
@@ -48,28 +46,6 @@
                         <td colspan="4"></td>
                     </tr>
                     <%
-                        String sortBy = request.getParameter("sortBy");
-                        if (sortBy != null) {
-                            switch (sortBy) {
-                                case "title":
-                                    books.sort(new Comparator<BookDao>() {
-                                        @Override
-                                        public int compare(BookDao b1, BookDao b2) {
-                                            return b1.bookTitle.compareTo(b2.bookTitle);
-                                        }
-                                    });
-                                    break;
-                                case "author":
-                                    books.sort(new Comparator<BookDao>() {
-                                        @Override
-                                        public int compare(BookDao b1, BookDao b2) {
-                                            return b1.bookAuthor.compareTo(b2.bookAuthor);
-                                        }
-                                    });
-                                    break;
-                            }
-                        }
-
                         if (books != null && !books.isEmpty()) {
                             for (BookDao book : books) {
                     %>
@@ -80,9 +56,15 @@
                         <td><%= book.getBookPrice() %></td>
                         <td><%= book.getQuantity() %></td>
                         <td><%= book.getReleaseDate() %></td>
+                        <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>
                             <button type="submit" id="BookID" name="BookID" value="<%= book.getBookID()%>">Add to Cart</button>
                         </td>
+                        <% } else { %>
+                        <td>
+                            <button disabled>Add to Cart</button>
+                        </td>
+                        <% } %>
                     </tr>
                     <%
                         }
@@ -100,7 +82,6 @@
             <div class="accessories-table">
                 <%
                     if (accessories != null && !accessories.isEmpty()) {
-
                 %>
                 <table>
                     <tr>
@@ -114,7 +95,6 @@
                         <td colspan="4"></td>
                     </tr>
                     <%
-
                         for (AccessoryDao accessory : accessories) {
                     %>
                     <tr class="item-row">
@@ -122,9 +102,15 @@
                         <td><%= accessory.getAccessoryName() %></td>
                         <td><%= accessory.getAccessoryPrice() %></td>
                         <td><%= accessory.getQuantity() %></td>
+                        <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>
                             <button type="submit" id="AccessoryID" name="AccessoryID" value="<%= accessory.getAccessoryID()%>">Add to Cart</button>
                         </td>
+                        <% } else { %>
+                        <td>
+                            <button disabled>Add to Cart</button>
+                        </td>
+                        <% } %>
                     </tr>
                     <%
                             }
