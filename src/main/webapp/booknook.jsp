@@ -80,15 +80,9 @@
                         <td><%= book.getBookPrice() %></td>
                         <td><%= book.getQuantity() %></td>
                         <td><%= book.getReleaseDate() %></td>
-                        <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>
                             <button type="submit" id="BookID" name="BookID" value="<%= book.getBookID()%>">Add to Cart</button>
                         </td>
-                        <% } else { %>
-                        <td>
-                            <button disabled>Add to Cart</button>
-                        </td>
-                        <% } %>
                     </tr>
                     <%
                         }
@@ -128,15 +122,9 @@
                         <td><%= accessory.getAccessoryName() %></td>
                         <td><%= accessory.getAccessoryPrice() %></td>
                         <td><%= accessory.getQuantity() %></td>
-                        <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>
                             <button type="submit" id="AccessoryID" name="AccessoryID" value="<%= accessory.getAccessoryID()%>">Add to Cart</button>
                         </td>
-                        <% } else { %>
-                        <td>
-                            <button disabled>Add to Cart</button>
-                        </td>
-                        <% } %>
                     </tr>
                     <%
                             }

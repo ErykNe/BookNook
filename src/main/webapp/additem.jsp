@@ -6,8 +6,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
-<div class="add-item-panel">
-  <h1>Add book</h1>
+<div style="margin-top: 80px">
 <form action="<%=request.getContextPath()%>/AddItemServlet" method="post">
   <table>
     <tr>
