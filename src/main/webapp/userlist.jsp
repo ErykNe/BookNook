@@ -40,10 +40,11 @@
                 <input type="hidden" name="username" value="<%= user.getUsername() %>">
                 <input type="submit" value="Delete">
             </form>
-            <form action="<%=request.getContextPath()%>/edituser.jsp" method="get">
+            <form action="<%=request.getContextPath()%>/EditUserServlet" method="get">
                 <input type="hidden" name="username" value="<%= user.getUsername() %>">
                 <input type="submit" value="Edit">
             </form>
+
         </td>
     </tr>
     <%

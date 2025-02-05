@@ -1,28 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.models.UserDao" %>
-
-<!DOCTYPE html>
+<style>
+    <%@ include file="css/style.css"%>
+</style>
 <html>
 <head>
     <title>Edit User</title>
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
-
-<h2>Edit User</h2>
-<% UserDao user = (UserDao) request.getAttribute("user"); %>
+<%
+    UserDao user = (UserDao) request.getAttribute("user" + "");
+    if (user != null) {
+%>
+<h2>Edit User: <%= user.getUsername() %></h2>
 <form action="<%=request.getContextPath()%>/EditUserServlet" method="post">
-    <input type="hidden" name="oldUsername" value="<%= user.getUsername() %>">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" value="<%= user.getUsername() %>" required><br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" value="<%= user.getEmail() %>" required><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" value="<%= user.getPassword() %>" required><br>
-    <label for="role">Role:</label>
-    <input type="text" id="role" name="role" value="<%= user.getRole() %>" required><br>
+    <input type="hidden" name="username" value="<%= user.getUsername() %>">
+    <label for="newUsername">New Username:</label>
+    <input type="text" id="newUsername" name="newUsername" value="<%= user.getUsername() %>"><br>
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" value="<%= user.getPassword() %>"><br>
+    <label for="newEmail">New Email:</label>
+    <input type="email" id="newEmail" name="newEmail" value="<%= user.getEmail() %>"><br>
+    <label for="newRole">New Role:</label>
+    <input type="text" id="newRole" name="newRole" value="<%= user.getRole() %>"><br>
     <input type="submit" value="Update">
 </form>
+<%
+} else {
+%>
+<p>User not found.</p>
+<%
+    }
+%>
 </body>
 </html>
