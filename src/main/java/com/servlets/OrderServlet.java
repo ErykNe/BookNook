@@ -24,7 +24,12 @@ public class OrderServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         String username = session.getAttribute("username").toString();
+
         double totalPrice = (double) session.getAttribute("totalPrice");
+        double userBalance = (double) session.getAttribute("balance");
+        totalPrice = Double.parseDouble(String.format("%.2f", totalPrice));
+        userBalance = Double.parseDouble(String.format("%.2f", userBalance));
+
         ArrayList<Integer> bookIDs = (ArrayList<Integer>) session.getAttribute("bookCart");
         ArrayList<Integer> accessoryIDs = (ArrayList<Integer>) session.getAttribute("accessoriesCart");
 
@@ -56,7 +61,6 @@ public class OrderServlet extends HttpServlet {
         }
 
         if(userId != -1) {
-            double userBalance = (double) session.getAttribute("balance");
             if(userBalance < totalPrice) {
                 request.setAttribute("messageOrder", "Transaction failed. Insufficient funds.");
             } else {
@@ -73,6 +77,8 @@ public class OrderServlet extends HttpServlet {
         }
 
         request.setAttribute("messageOrder", "Transaction completed. Thank you for your order!");
+        session.setAttribute("bookCart", null);
+        session.setAttribute("accessoriesCart", null);
 
         request.getRequestDispatcher("index.jsp?page=cart").forward(request, response);
 

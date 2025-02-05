@@ -16,7 +16,7 @@
         if (session != null && session.getAttribute("username") != null) {
             String username = (String) session.getAttribute("username");
     %>
-    <p>You are already logged in as <%= username %>.</p>
+    <p>You are logged in as <%= username %>.</p>
     <form action="<%=request.getContextPath()%>/LogoutServlet" method="post">
         <button type="submit">Logout</button>
     </form>

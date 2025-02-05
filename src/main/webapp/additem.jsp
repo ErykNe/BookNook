@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>User List</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<style>
+  <%@ include file="css/style.css"%>
+</style>
 <jsp:include page="navbar.jsp" />
-<div style="margin-top: 80px">
+
+<div class="add-item-panel">
+  <h1>Add book</h1>
 <form action="<%=request.getContextPath()%>/AddItemServlet" method="post">
   <table>
     <tr>
