@@ -1,8 +1,5 @@
 package com.servlets;
 
-import com.models.AccessoryDao;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,159 +7,85 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.sql.ResultSet;
 
 @WebServlet("/OrderServlet")
 public class OrderServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    public OrderServlet() {}
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/index.jsp?page=cart").forward(request, response);
-    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        ArrayList<Integer> bookCart = (ArrayList<Integer>) session.getAttribute("bookCart");
+        ArrayList<Integer> accessoriesCart = (ArrayList<Integer>) session.getAttribute("accessoriesCart");
 
-        String username = session.getAttribute("username").toString();
-
-        double totalPrice = (double) session.getAttribute("totalPrice");
-        double userBalance = (double) session.getAttribute("balance");
-        totalPrice = Double.parseDouble(String.format("%.2f", totalPrice));
-        userBalance = Double.parseDouble(String.format("%.2f", userBalance));
-
-        ArrayList<Integer> bookIDs = (ArrayList<Integer>) session.getAttribute("bookCart");
-        ArrayList<Integer> accessoryIDs = (ArrayList<Integer>) session.getAttribute("accessoriesCart");
-
-        System.out.println("Order on: " + username + " Total price of order: " + totalPrice);
-        String orderDetails = "Books: ";
-        for(Integer bookID : bookIDs) {
-            orderDetails += bookID.toString() + " ";
+        if (username == null || (bookCart == null && accessoriesCart == null)) {
+            response.sendRedirect("index.jsp?page=cart");
+            return;
         }
-        orderDetails += " Accessories: ";
-        for(Integer accessoryID : accessoryIDs) {
-            orderDetails += accessoryID.toString() + " ";
-        }
-        System.out.println(orderDetails);
 
         try {
             Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            request.setAttribute("messageOrder", "Transaction failed. Please try again.");
-            throw new RuntimeException(e);
-        }
+            String path = getServletContext().getRealPath("/WEB-INF/database.db");
+            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path)) {
+                conn.setAutoCommit(false);
 
-        int userId = -1;
-        try {
-            userId = getUserId(username, getServletContext());
-        } catch (ClassNotFoundException | SQLException e) {
-            request.setAttribute("messageOrder", "Transaction failed. Please try again.");
-            throw new RuntimeException(e);
+                String orderDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                String insertOrderSQL = "INSERT INTO Orders (Username, OrderDate) VALUES (?, ?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(insertOrderSQL, Statement.RETURN_GENERATED_KEYS)) {
+                    pstmt.setString(1, username);
+                    pstmt.setString(2, orderDate);
+                    pstmt.executeUpdate();
 
-        }
-
-        if(userId != -1) {
-            if(userBalance < totalPrice) {
-                request.setAttribute("messageOrder", "Transaction failed. Insufficient funds.");
-            } else {
-                try {
-                    addOrder(userId, orderDetails, getServletContext());
-                    updateBooksQuantity(bookIDs, getServletContext());
-                    updateAccessoriesQuantity(accessoryIDs, getServletContext());
-                    updateUserBalance(userId, totalPrice, getServletContext(), session);
-                } catch (ClassNotFoundException | SQLException e) {
-                    request.setAttribute("messageOrder", "Transaction failed. Please try again.");
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-        request.setAttribute("messageOrder", "Transaction completed. Thank you for your order!");
-        session.setAttribute("bookCart", null);
-        session.setAttribute("accessoriesCart", null);
-
-        request.getRequestDispatcher("index.jsp?page=cart").forward(request, response);
-
-    }
-    protected int getUserId(String username, ServletContext context) throws ClassNotFoundException, SQLException {
-        int id = -1;
-        String path = context.getRealPath("/WEB-INF/database.db");
-        String sql = "SELECT UserID FROM Users WHERE Username = ?";
-
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, username);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    id = rs.getInt("UserID");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-    protected void addOrder(int userId, String orderDetails, ServletContext context) throws ClassNotFoundException, SQLException {
-        String path = context.getRealPath("/WEB-INF/database.db");
-        String sql = "INSERT INTO Orders (UserID, OrderDetails) VALUES (?, ?);";
-
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, userId);
-            pstmt.setString(2, orderDetails);
-
-            pstmt.executeUpdate();
-        }
-    }
-    protected void updateBooksQuantity(ArrayList<Integer> bookIDs, ServletContext context) throws ClassNotFoundException, SQLException {
-        String path = context.getRealPath("/WEB-INF/database.db");
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path)) {
-
-            String sql = "UPDATE Books SET Quantity = Quantity - 1 WHERE BookID = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                for (Integer bookId : bookIDs) {
-                    stmt.setInt(1, bookId);
-                    stmt.executeUpdate();
-                }
-            }
-        }
-    }
-    protected void updateAccessoriesQuantity(ArrayList<Integer> accessoryIDs, ServletContext context) throws ClassNotFoundException, SQLException {
-        String path = context.getRealPath("/WEB-INF/database.db");
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path)) {
-
-            String sql = "UPDATE Accessories SET Quantity = Quantity - 1 WHERE AccessoryID = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                for (Integer accessoryId : accessoryIDs) {
-                    stmt.setInt(1, accessoryId);
-                    stmt.executeUpdate();
-                }
-            }
-        }
-    }
-    protected void updateUserBalance(int userID, double price, ServletContext context, HttpSession session) throws ClassNotFoundException, SQLException {
-        String path = context.getRealPath("/WEB-INF/database.db");
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path)) {
-            String sql = "UPDATE Users SET Balance = Balance - ? WHERE UserID = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setDouble(1, price);
-                stmt.setInt(2, userID);
-                stmt.executeUpdate();
-            }
-            double oldUserBalance = 0;
-            String sql2 = "SELECT Balance FROM Users WHERE UserID = ?";
-            try (PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
-                stmt2.setInt(1, userID);
-                try (ResultSet rs = stmt2.executeQuery()) {
-                    if (rs.next()) {
-                        oldUserBalance = rs.getDouble("Balance");
+                    int orderId;
+                    try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            orderId = rs.getInt(1);
+                        } else {
+                            throw new Exception("Failed to retrieve order ID.");
+                        }
                     }
+
+                    String insertOrderItemSQL = "INSERT INTO OrderItems (OrderID, ItemType, ItemID, Quantity) VALUES (?, ?, ?, ?)";
+                    try (PreparedStatement pstmtItem = conn.prepareStatement(insertOrderItemSQL)) {
+                        if (bookCart != null) {
+                            for (Integer bookId : bookCart) {
+                                pstmtItem.setInt(1, orderId);
+                                pstmtItem.setString(2, "book");
+                                pstmtItem.setInt(3, bookId);
+                                pstmtItem.setInt(4, 1); // Assuming quantity is 1 for simplicity
+                                pstmtItem.addBatch();
+                            }
+                        }
+                        if (accessoriesCart != null) {
+                            for (Integer accessoryId : accessoriesCart) {
+                                pstmtItem.setInt(1, orderId);
+                                pstmtItem.setString(2, "accessory");
+                                pstmtItem.setInt(3, accessoryId);
+                                pstmtItem.setInt(4, 1); // Assuming quantity is 1 for simplicity
+                                pstmtItem.addBatch();
+                            }
+                        }
+                        pstmtItem.executeBatch();
+                    }
+
+                    conn.commit();
                 }
+
+                session.removeAttribute("bookCart");
+                session.removeAttribute("accessoriesCart");
+                request.setAttribute("message", "Order placed successfully!");
             }
-            session.setAttribute("balance", oldUserBalance - price);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("message", "An error occurred while placing the order.");
         }
 
+        request.getRequestDispatcher("index.jsp?page=orders").forward(request, response);
     }
 }

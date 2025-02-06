@@ -13,20 +13,35 @@ public class AccessoryDao {
         this.quantity = quantity;
     }
 
-    public String getAccessoryID() {
-        return String.valueOf(accessoryID);
+    public int getAccessoryID() {
+        return accessoryID;
+    }
+
+    public void setAccessoryID(int accessoryID) {
+        this.accessoryID = accessoryID;
     }
 
     public String getAccessoryName() {
         return accessoryName;
     }
 
-    public String getAccessoryPrice() {
-        return String.format("%.2f", accessoryPrice);
+    public void setAccessoryName(String accessoryName) {
+        this.accessoryName = accessoryName;
     }
 
-    public String getQuantity() {
-        return String.valueOf(quantity);
+    public double getAccessoryPrice() {
+        return accessoryPrice;
     }
 
+    public void setAccessoryPrice(double accessoryPrice) {
+        this.accessoryPrice = accessoryPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

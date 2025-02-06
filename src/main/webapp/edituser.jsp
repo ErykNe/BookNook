@@ -10,7 +10,7 @@
     if (user != null) {
 %>
 <div class="add-item-panel">
-<h2>Edit User: <%= user.getUsername() %></h2>
+    <h2>Edit User: <%= user.getUsername() %></h2>
     <form action="<%=request.getContextPath()%>/EditUserServlet" method="post">
         <input type="hidden" name="username" value="<%= user.getUsername() %>">
         <table>

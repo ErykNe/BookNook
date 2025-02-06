@@ -175,8 +175,9 @@
         </div>
         <hr>
         <div class="summary-cart">
-            <form class="summary-form" action="<%=request.getContextPath()%>/OrderServlet" method="post">
+            <form class="summary-form" action="<%=request.getContextPath()%>/UpdateCartServlet" method="post">
                 <a>Total Price: $<%= String.format("%.2f", totalPrice) %></a>
+                <input type="hidden" name="placeOrder" value="true">
                 <button type="submit">Place order</button>
             </form>
         </div>
