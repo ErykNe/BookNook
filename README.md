@@ -29,8 +29,8 @@ Follow these steps to run the BookNook application:
 
 ### Step 2: Run the Application in System Terminal
 
-- In cmd type: '''mvn clean package''' and wait for it to build
-- then type: '''copy target\BookNook.war C:\path\to\tomcat\webapps\'''
-- next type: '''cd C:\path\to\tomcat\bin'''
-- type: '''startup.bat'''
+- In cmd type: ```mvn clean package``` and wait for it to build
+- then type: ```copy target\BookNook.war C:\path\to\tomcat\webapps\```
+- next type: ```cd C:\path\to\tomcat\bin```
+- type: ```startup.bat```
 - Open your browser and go to http://localhost:8080/BookNook
