@@ -217,7 +217,7 @@ public class OrderServlet extends HttpServlet {
                     }
                 }
             }
-            session.setAttribute("balance", oldUserBalance - price);
+            session.setAttribute("balance", oldUserBalance);
         }
 
     }
