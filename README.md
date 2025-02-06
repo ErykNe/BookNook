@@ -30,3 +30,13 @@ Follow these steps to run the BookNook application:
 - Open your browser and go to http://localhost:8080/BookNook
 
 ## Login Details
+for every password is the same as username for example:
+- Username: `admin`
+- Password: `admin`
+Other Logins:
+- admin1    
+- admin2    
+- admin3    
+- tester    
+- dev    
+- manager 
