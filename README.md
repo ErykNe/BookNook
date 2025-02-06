@@ -14,8 +14,8 @@ BookNook is a web application that allows users to search for books and accessor
 To run the BookNook application, you need to have the following installed:
 
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or higher)
-- [Apache Maven](https://maven.apache.org/install.html)
-- [Apache Tomcat](https://tomcat.apache.org/download-90.cgi) (version 9 or higher)
+- [Apache Maven]([https://maven.apache.org/install.html](https://maven.apache.org/download.cgi)) (version 3.9.9)
+- [Apache Tomcat](https://tomcat.apache.org/download-90.cgi) 
 - Make sure you have java and maven in environment variables
 
 ## Running the Application
