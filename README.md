@@ -1,6 +1,6 @@
 # BookNook
 
-BookNook is a web application that allows users to search for books and accessories, add them to a cart, and place orders. This application is built using Java and CSS.
+BookNook is a web application that allows users to search for books and accessories, add them to a cart, and place orders. This application is built using Java.
 
 ## Features
 
@@ -16,7 +16,7 @@ To run the BookNook application, you need to have the following installed:
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or higher)
 - [Apache Maven](https://maven.apache.org/install.html)
 - [Apache Tomcat](https://tomcat.apache.org/download-90.cgi) (version 9 or higher)
-- make sure you have java and maven in environment variables
+- Make sure you have java and maven in environment variables
 
 ## Running the Application
 
