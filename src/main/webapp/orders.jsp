@@ -5,8 +5,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="com.models.BookDao" %>
-<%@ page import="com.models.AccessoryDao" %>
+<%@ page import="com.models.Book" %>
+<%@ page import="com.models.Accessory" %>
 
 <style>
     <%@ include file="css/style.css"%>

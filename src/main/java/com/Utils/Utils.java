@@ -1,7 +1,7 @@
 package com.Utils;
 
-import com.models.BookDao;
-import com.models.AccessoryDao;
+import com.models.Book;
+import com.models.Accessory;
 
 import javax.servlet.ServletContext;
 import java.sql.*;
@@ -26,9 +26,9 @@ public class Utils {
         }
         return conn;
     }
-    public static ArrayList<BookDao> getBooks(Connection conn) {
+    public static ArrayList<Book> getBooks(Connection conn) {
         String sql = "SELECT * FROM Books";
-        ArrayList<BookDao> books = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -40,20 +40,7 @@ public class Utils {
                 double price = rs.getDouble("BookPrice");
                 int quantity = rs.getInt("Quantity");
 
-                // Parse the release date using the custom formatter
-                LocalDate releaseDate = null;
-                String dateString = rs.getString("ReleaseDate");
-                System.out.println(dateString);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd");
-                if (dateString != null && !dateString.isEmpty()) {
-                    try {
-                        releaseDate = LocalDate.parse(dateString, formatter);
-                    } catch (DateTimeParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                books.add(new BookDao(id, title, author, price, quantity, releaseDate));
+                books.add(new Book(id, title, author, price, quantity));
             }
 
         } catch (SQLException e) {
@@ -63,9 +50,9 @@ public class Utils {
         return books;
     }
 
-    public static ArrayList<AccessoryDao> getAccessories(Connection conn) {
+    public static ArrayList<Accessory> getAccessories(Connection conn) {
         String sql = "SELECT * FROM Accessories";
-        ArrayList<AccessoryDao> accessories = new ArrayList<>();
+        ArrayList<Accessory> accessories = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()){
             while (rs.next()) {
@@ -74,7 +61,7 @@ public class Utils {
                 double price = rs.getDouble("AccessoryPrice");
                 int quantity = rs.getInt("Quantity");
 
-                accessories.add(new AccessoryDao(id, name, price, quantity));
+                accessories.add(new Accessory(id, name, price, quantity));
             }
 
         } catch (SQLException e) {
@@ -83,7 +70,7 @@ public class Utils {
         return accessories;
     }
 
-    public static Map<BookDao, Integer> getBooksByIDs(Connection conn, ArrayList<Integer> bookIds) {
+    public static Map<Book, Integer> getBooksByIDs(Connection conn, ArrayList<Integer> bookIds) {
         // Step 1: Count the frequency of each book ID in the list.
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         for (Integer bookId : bookIds) {
@@ -91,7 +78,7 @@ public class Utils {
         }
 
         // Step 2: For each unique book ID, query the database and store the result in a HashMap.
-        Map<BookDao, Integer> booksWithCount = new HashMap<>();
+        Map<Book, Integer> booksWithCount = new HashMap<>();
         String sql = "SELECT * FROM Books WHERE BookID = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,19 +94,9 @@ public class Utils {
                         String author = rs.getString("BookAuthor");
                         double price = rs.getDouble("BookPrice");
                         int quantity = rs.getInt("Quantity");
-                        // Parse the release date using a custom formatter.
-                        LocalDate releaseDate = null;
-                        String dateString = rs.getString("ReleaseDate");
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd");
-                        if (dateString != null && !dateString.isEmpty()) {
-                            try {
-                                releaseDate = LocalDate.parse(dateString, formatter);
-                            } catch (DateTimeParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
 
-                        BookDao book = new BookDao(id, title, author, price, quantity, releaseDate);
+
+                        Book book = new Book(id, title, author, price, quantity);
                         booksWithCount.put(book, frequencyMap.get(bookId));
                     }
                 }
@@ -127,20 +104,20 @@ public class Utils {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for (Map.Entry<BookDao, Integer> entry : booksWithCount.entrySet()) {
-            BookDao book = entry.getKey();
+        for (Map.Entry<Book, Integer> entry : booksWithCount.entrySet()) {
+            Book book = entry.getKey();
             Integer frequency = entry.getValue();
         }
 
         return booksWithCount;
     }
-    public static Map<AccessoryDao, Integer> getAccessoriesByIDs(Connection conn, ArrayList<Integer> accessoryIds) {
+    public static Map<Accessory, Integer> getAccessoriesByIDs(Connection conn, ArrayList<Integer> accessoryIds) {
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         for (Integer accessoryId : accessoryIds) {
             frequencyMap.put(accessoryId, frequencyMap.getOrDefault(accessoryId, 0) + 1);
         }
 
-        Map<AccessoryDao, Integer> accessoriesWithCount = new HashMap<>();
+        Map<Accessory, Integer> accessoriesWithCount = new HashMap<>();
         String sql = "SELECT * FROM Accessories WHERE AccessoryID = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -153,7 +130,7 @@ public class Utils {
                         double price = rs.getDouble("AccessoryPrice");
                         int quantity = rs.getInt("Quantity");
 
-                        AccessoryDao accessory = new AccessoryDao(id, name, price, quantity);
+                        Accessory accessory = new Accessory(id, name, price, quantity);
                         accessoriesWithCount.put(accessory, frequencyMap.get(accessoryId));
                     }
                 }

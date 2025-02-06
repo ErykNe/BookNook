@@ -1,8 +1,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="com.Utils.Utils" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.models.BookDao" %>
-<%@ page import="com.models.AccessoryDao" %>
+<%@ page import="com.models.Book" %>
+<%@ page import="com.models.Accessory" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Comparator" %>
 <%@ page import="java.util.TreeMap" %>
@@ -14,8 +14,8 @@
 <%
     ArrayList<Integer> bookCart = null;
     ArrayList<Integer> accessoriesCart = null;
-    Map<BookDao, Integer> books = null;
-    Map<AccessoryDao, Integer> accessories = null;
+    Map<Book, Integer> books = null;
+    Map<Accessory, Integer> accessories = null;
 
     try (Connection conn = Utils.getConnection(application)) {
 
@@ -36,18 +36,18 @@
     double totalPrice = 0.0;
 
     if (books != null) {
-        for (Map.Entry<BookDao, Integer> entry : books.entrySet()) {
-            BookDao book = entry.getKey();
+        for (Map.Entry<Book, Integer> entry : books.entrySet()) {
+            Book book = entry.getKey();
             double count = entry.getValue();
-            totalPrice += book.bookPrice * count;
+            totalPrice += book.getPrice() * count;
         }
     }
 
     if (accessories != null) {
-        for (Map.Entry<AccessoryDao, Integer> entry : accessories.entrySet()) {
-            AccessoryDao accessory = entry.getKey();
+        for (Map.Entry<Accessory, Integer> entry : accessories.entrySet()) {
+            Accessory accessory = entry.getKey();
             int count = entry.getValue();
-            totalPrice += accessory.accessoryPrice * count;
+            totalPrice += accessory.getPrice() * count;
         }
     }
 
@@ -73,7 +73,6 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Price</th>
-                    <th>Release Date</th>
                     <th>Quantity</th>
                     <th>Cart</th>
                 </tr>
@@ -82,16 +81,15 @@
                 </tr>
                 <%
 
-                    for (Map.Entry<BookDao, Integer> entry : books.entrySet()) {
-                        BookDao book = entry.getKey();
+                    for (Map.Entry<Book, Integer> entry : books.entrySet()) {
+                        Book book = entry.getKey();
                         Integer frequency = entry.getValue();
                 %>
                 <tr class="item-row">
                     <td><img src="images/book.png"></td>
-                    <td><%= book.getBookTitle() %></td>
-                    <td><%= book.getBookAuthor() %></td>
-                    <td><%= book.getBookPrice() %></td>
-                    <td><%= book.getReleaseDate() %></td>
+                    <td><%= book.getName() %></td>
+                    <td><%= book.getAuthor() %></td>
+                    <td><%= book.getPrice() %></td>
                     <td>
                         <form id="<%=book.getBookID()%>updateCartForm" action="<%=request.getContextPath()%>/UpdateCartServlet" method="post">
                             <input
@@ -136,14 +134,14 @@
                 </tr>
                 <%
 
-                    for (Map.Entry<AccessoryDao, Integer> entry : accessories.entrySet()) {
-                        AccessoryDao accessory = entry.getKey();
+                    for (Map.Entry<Accessory, Integer> entry : accessories.entrySet()) {
+                        Accessory accessory = entry.getKey();
                         Integer frequency = entry.getValue();
                 %>
                 <tr class="item-row">
                     <td><img src="images/pack.png"></td>
-                    <td><%= accessory.getAccessoryName() %></td>
-                    <td><%= accessory.getAccessoryPrice() %></td>
+                    <td><%= accessory.getName() %></td>
+                    <td><%= accessory.getPrice() %></td>
                     <td>
                         <form id="<%=accessory.getAccessoryID()%>updateCartForm2" action="<%=request.getContextPath()%>/UpdateCartServlet" method="post">
                             <input

@@ -1,18 +1,18 @@
-<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException, com.models.BookDao" %>
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException, com.models.Book" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.Utils.Utils" %>
 <%@ page import="java.util.Comparator" %>
-<%@ page import="com.models.AccessoryDao" %>
+<%@ page import="com.models.Accessory" %>
 
 <style>
     <%@ include file="css/style.css"%>
 </style>
 <%
-    ArrayList<AccessoryDao> accessories = null;
-    ArrayList<BookDao> books = null;
+    ArrayList<Accessory> accessories = null;
+    ArrayList<Book> books = null;
     try (Connection conn = Utils.getConnection(application)) {
         books = request.getAttribute("books") != null &&  request.getAttribute("books") != "noresult"
-                ? (ArrayList<BookDao>) request.getAttribute("books") : Utils.getBooks(conn);
+                ? (ArrayList<Book>) request.getAttribute("books") : Utils.getBooks(conn);
         if(request.getAttribute("books") == "noresult"){
             books = null;
         }
@@ -39,7 +39,6 @@
                         <th>Author</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Release Date</th>
                         <th>Cart</th>
                     </tr>
                     <tr class="spacer-row">
@@ -47,15 +46,14 @@
                     </tr>
                     <%
                         if (books != null && !books.isEmpty()) {
-                            for (BookDao book : books) {
+                            for (Book book : books) {
                     %>
                     <tr class="item-row">
                         <td><img src="images/book.png"></td>
-                        <td><%= book.getBookTitle() %></td>
-                        <td><%= book.getBookAuthor() %></td>
-                        <td><%= book.getBookPrice() %></td>
+                        <td><%= book.getName() %></td>
+                        <td><%= book.getAuthor() %></td>
+                        <td><%= book.getPrice() %></td>
                         <td><%= book.getQuantity() %></td>
-                        <td><%= book.getReleaseDate() %></td>
                         <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>
                             <button type="submit" id="BookID" name="BookID" value="<%= book.getBookID()%>">Add to Cart</button>
@@ -95,12 +93,12 @@
                         <td colspan="4"></td>
                     </tr>
                     <%
-                        for (AccessoryDao accessory : accessories) {
+                        for (Accessory accessory : accessories) {
                     %>
                     <tr class="item-row">
                         <td><img src="images/pack.png"></td>
-                        <td><%= accessory.getAccessoryName() %></td>
-                        <td><%= accessory.getAccessoryPrice() %></td>
+                        <td><%= accessory.getName() %></td>
+                        <td><%= accessory.getPrice() %></td>
                         <td><%= accessory.getQuantity() %></td>
                         <% if (session != null && session.getAttribute("username") != null) { %>
                         <td>

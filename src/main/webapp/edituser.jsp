@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.models.UserDao" %>
+<%@ page import="com.models.User" %>
 <style>
     <%@ include file="css/style.css"%>
 </style>
 
 <jsp:include page="navbar.jsp" />
 <%
-    UserDao user = (UserDao) request.getAttribute("user" + "");
+    User user = (User) request.getAttribute("user" + "");
     if (user != null) {
 %>
 <div class="add-item-panel">

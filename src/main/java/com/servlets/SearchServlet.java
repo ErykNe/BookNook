@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.models.BookDao;
+import com.models.Book;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @WebServlet("/SearchServlet")
 public class SearchServlet extends HttpServlet {
 
-    public ArrayList<BookDao> books = new ArrayList<>();
+    public ArrayList<Book> books = new ArrayList<>();
 
     public SearchServlet() {
         super();
@@ -52,20 +52,8 @@ public class SearchServlet extends HttpServlet {
                 while (rs.next()) {
                     foundResults = true;
 
-                    String dateString = rs.getString("ReleaseDate");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd");
-                    LocalDate releaseDate = null;
-
-                    if (dateString != null && !dateString.isEmpty()) {
-                        try {
-                            releaseDate = LocalDate.parse(dateString, formatter);
-                        } catch (DateTimeParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    BookDao book = new BookDao(rs.getInt("BookID"), rs.getString("BookTitle")
-                    , rs.getString("BookAuthor"), rs.getDouble("BookPrice"), rs.getInt("Quantity"), releaseDate);
+                    Book book = new Book(rs.getInt("BookID"), rs.getString("BookTitle")
+                    , rs.getString("BookAuthor"), rs.getDouble("BookPrice"), rs.getInt("Quantity"));
                     books.add(book);
                     request.setAttribute("books", books);
                 }

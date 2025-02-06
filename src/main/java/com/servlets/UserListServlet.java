@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.models.UserDao;
+import com.models.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,7 +24,7 @@ public class UserListServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null && "admin".equals(session.getAttribute("role"))) {
             try {
-                List<UserDao> users = getUsers();
+                List<User> users = getUsers();
                 request.setAttribute("users", users);
                 request.getRequestDispatcher("userlist.jsp").forward(request, response);
             } catch (Exception e) {
@@ -40,8 +40,8 @@ public class UserListServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    private List<UserDao> getUsers() throws Exception {
-        List<UserDao> users = new ArrayList<>();
+    private List<User> getUsers() throws Exception {
+        List<User> users = new ArrayList<>();
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "SELECT Username, Email, Role FROM Users";
@@ -51,7 +51,7 @@ public class UserListServlet extends HttpServlet {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                UserDao user = new UserDao();
+                User user = new User();
                 user.setUsername(rs.getString("Username"));
                 user.setEmail(rs.getString("Email"));
                 user.setRole(rs.getString("Role"));

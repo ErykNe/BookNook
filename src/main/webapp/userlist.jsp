@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.models.UserDao" %>
+<%@ page import="com.models.User" %>
 <style>
     <%@ include file="css/style.css"%>
 </style>
@@ -22,9 +22,9 @@
                 <th>Action</th>
             </tr>
             <%
-                List<UserDao> users = (List<UserDao>) request.getAttribute("users");
+                List<User> users = (List<User>) request.getAttribute("users");
                 if (users != null) {
-                    for (UserDao user : users) {
+                    for (User user : users) {
             %>
             <tr>
                 <td><%= user.getUsername() %></td>

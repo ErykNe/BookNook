@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.models.UserDao;
+import com.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
-        UserDao user = null;
+        User user = null;
 
         try {
             Class.forName("org.sqlite.JDBC");
@@ -32,7 +32,7 @@ public class EditUserServlet extends HttpServlet {
                 pstmt.setString(1, username);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
-                        user = new UserDao();
+                        user = new User();
 
                         user.setUsername(rs.getString("Username"));
                         user.setPassword(rs.getString("Password"));

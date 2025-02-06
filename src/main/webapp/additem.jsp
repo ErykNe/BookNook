@@ -48,10 +48,6 @@
           <td><label for="quantity">Quantity:</label></td>
           <td><input type="number" id="quantity" name="quantity"></td>
         </tr>
-        <tr>
-          <td><label for="releaseDate">Release Date:</label></td>
-          <td><input type="date" id="releaseDate" name="releaseDate"></td>
-        </tr>
       </table>
     </div>
 
