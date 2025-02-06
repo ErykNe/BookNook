@@ -33,7 +33,7 @@ Follow these steps to run the BookNook application:
 For every account password is the same as username for example:
 - Username: `admin`
 - Password: `admin`
-  ### Other Logins:
+### Other Logins:
 - admin1    
 - admin2    
 - admin3    
