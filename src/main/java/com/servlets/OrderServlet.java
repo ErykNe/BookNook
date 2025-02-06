@@ -58,6 +58,7 @@ public class OrderServlet extends HttpServlet {
             if(userBalance < totalPrice) {
                 //check if user has enough money to buy items in cart
                 request.setAttribute("messageOrder", "Transaction failed. Insufficient funds.");
+                request.getRequestDispatcher("index.jsp?page=cart").forward(request, response);
             } else {
                 try {
                     //update all data in database
