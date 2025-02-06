@@ -9,7 +9,7 @@ To run the BookNook application, you need to have the following installed:
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or higher)
 - [Apache Maven](https://maven.apache.org/download.cgi) (version 3.9.9)
 - [Apache Tomcat](https://tomcat.apache.org/download-90.cgi) (version 8.5.96)
-- Make sure you have java and maven in environment variables(https://phoenixnap.com/kb/install-maven-windows)
+- Make sure you have java and maven in [environment variables](https://phoenixnap.com/kb/install-maven-windows)
 
 ## Running the Application
 
