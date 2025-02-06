@@ -72,7 +72,7 @@
         <%
         } else {
         %>
-        <p>No orders found.</p>
+        <p style="text-align: center">No orders found.</p>
         <%
             }
         %>
