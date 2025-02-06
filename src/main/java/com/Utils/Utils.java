@@ -101,10 +101,6 @@ public class Utils {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for (Map.Entry<Book, Integer> entry : booksWithCount.entrySet()) {
-            Book book = entry.getKey();
-            Integer frequency = entry.getValue();
-        }
 
         return booksWithCount;
     }
