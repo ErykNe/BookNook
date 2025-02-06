@@ -56,7 +56,7 @@ public class AddItemServlet extends HttpServlet {
     private void addBook(String bookTitle, String bookAuthor, double bookPrice, int quantity) throws Exception {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
-        String sql = "INSERT INTO Books (BookTitle, BookAuthor, BookPrice, Quantity) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Books (BookTitle, BookAuthor, BookPrice, Quantity) VALUES (?, ?, ?, ?)";
         //execute sql query in database.db
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
