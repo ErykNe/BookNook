@@ -34,3 +34,5 @@ Follow these steps to run the BookNook application:
 - next type: ```cd C:\path\to\tomcat\bin```
 - type: ```startup.bat```
 - Open your browser and go to http://localhost:8080/BookNook
+
+## Login Details
