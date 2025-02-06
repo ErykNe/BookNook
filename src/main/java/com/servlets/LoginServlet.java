@@ -18,6 +18,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //default redirect to itself preventing unwanted get actions performed by user which can lead to malfunctions
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
@@ -28,6 +29,7 @@ public class LoginServlet extends HttpServlet {
 
         try {
             String role = authenticateUser(username, password);
+            //authenticate user by checking its role in the database
             if (role != null) {
                 double balance = getUserBalance(username);
                 HttpSession session = request.getSession();
@@ -35,6 +37,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("balance", balance);
                 session.setAttribute("role", role);
                 request.setAttribute("message", "Login successful!");
+                //if no role has been found then send the proper message
             } else {
                 request.setAttribute("message", "Invalid username or password.");
                 isError = true;
@@ -44,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             isError = true;
             e.printStackTrace();
         }
-
+        //send the message to the page
         request.setAttribute("isError", isError);
         request.getRequestDispatcher("index.jsp?page=login").forward(request, response);
     }
@@ -53,7 +56,7 @@ public class LoginServlet extends HttpServlet {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "SELECT Role FROM Users WHERE Username = ? AND Password = ?";
-
+        //execute sql query searching for role of a user with the same username and password
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -73,7 +76,7 @@ public class LoginServlet extends HttpServlet {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "SELECT Balance FROM Users WHERE Username = ?";
-
+        //execute sql query that gets the balance of a user
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

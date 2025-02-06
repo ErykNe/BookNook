@@ -19,24 +19,25 @@ public class AddItemServlet extends HttpServlet {
         String message = "";
 
         try {
+            //check if admin wants to add book
             if ("book".equalsIgnoreCase(itemType)) {
+                //get all the data
                 String bookTitle = request.getParameter("bookTitle");
                 String bookAuthor = request.getParameter("bookAuthor");
                 double bookPrice = Double.parseDouble(request.getParameter("bookPrice"));
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-
+                //add the book to database
                 addBook(bookTitle, bookAuthor, bookPrice, quantity);
                 message = "Book added successfully!";
+                //check if admin wants to add accessory
             } else if ("accessory".equalsIgnoreCase(itemType)) {
+                //get all the data
                 String accessoryName = request.getParameter("accessoryName");
                 double accessoryPrice = Double.parseDouble(request.getParameter("accessoryPrice"));
                 int accessoryQuantity = Integer.parseInt(request.getParameter("accessoryQuantity"));
 
-                System.out.println("Accessory Name: " + accessoryName);
-                System.out.println("Accessory Price: " + accessoryPrice);
-                System.out.println("Quantity: " + accessoryQuantity);
-
+                //add accessory to database
                 addAccessory(accessoryName, accessoryPrice, accessoryQuantity);
                 message = "Accessory added successfully!";
             } else {
@@ -47,6 +48,7 @@ public class AddItemServlet extends HttpServlet {
             message = "An error occurred while adding the item.";
         }
 
+        //send message to the page
         request.setAttribute("message", message);
         request.getRequestDispatcher("additem.jsp").forward(request, response);
     }
@@ -55,7 +57,7 @@ public class AddItemServlet extends HttpServlet {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "INSERT INTO Books (BookTitle, BookAuthor, BookPrice, Quantity) VALUES (?, ?, ?, ?, ?)";
-
+        //execute sql query in database.db
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, bookTitle);
@@ -70,7 +72,7 @@ public class AddItemServlet extends HttpServlet {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "INSERT INTO Accessories (AccessoryName, AccessoryPrice, Quantity) VALUES (?, ?, ?)";
-
+        //execute sql query in database.db
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, accessoryName);

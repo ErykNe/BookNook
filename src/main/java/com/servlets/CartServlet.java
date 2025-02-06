@@ -17,6 +17,7 @@ public class CartServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //default redirect to itself preventing unwanted get actions performed by user which can lead to malfunctions
         request.getRequestDispatcher("/index.jsp?page=cart").forward(request, response);
     }
 
@@ -25,14 +26,19 @@ public class CartServlet extends HttpServlet {
         int itemID2 = request.getParameter("AccessoryID") != null ? Integer.parseInt(request.getParameter("AccessoryID")) : -1;
 
         HttpSession session = request.getSession();
+        //get a cart from session
+        //(array lists which store all the book and accessory id's)
         ArrayList<Integer> bookCart = (ArrayList<Integer>) session.getAttribute("bookCart");
         ArrayList<Integer> accessoryCart = (ArrayList<Integer>) session.getAttribute("accessoriesCart");
+
+        //create new cart for session
         if (bookCart == null) {
             bookCart = new ArrayList<>();
         }
         if (accessoryCart == null) {
             accessoryCart = new ArrayList<>();
         }
+        //add id's to carts
         if(itemID != -1) {
             bookCart.add(itemID);
         }
@@ -42,17 +48,7 @@ public class CartServlet extends HttpServlet {
         session.setAttribute("bookCart", bookCart);
         session.setAttribute("accessoriesCart", accessoryCart);
 
-        System.out.println("BookCart:");
-        for (Integer i : bookCart) {
-            System.out.print(i + " ");
-        }
-        System.out.println("");
-
-        System.out.println("AccessoryCart:");
-        for (Integer i : accessoryCart) {
-            System.out.print(i + " ");
-        }
-
+        //send message to the page
         request.getRequestDispatcher("index.jsp?page=booknook").forward(request, response);
     }
 }

@@ -21,6 +21,7 @@ public class OrderServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public OrderServlet() {}
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //default redirect to itself preventing unwanted get actions performed by user which can lead to malfunctions
         request.getRequestDispatcher("/index.jsp?page=cart").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,17 +37,6 @@ public class OrderServlet extends HttpServlet {
         ArrayList<Integer> bookIDs = (ArrayList<Integer>) session.getAttribute("bookCart");
         ArrayList<Integer> accessoryIDs = (ArrayList<Integer>) session.getAttribute("accessoriesCart");
 
-        System.out.println("Order on: " + username + " Total price of order: " + totalPrice);
-        String orderDetails = "Books: ";
-        for(Integer bookID : bookIDs) {
-            orderDetails += bookID.toString() + " ";
-        }
-        orderDetails += " Accessories: ";
-        for(Integer accessoryID : accessoryIDs) {
-            orderDetails += accessoryID.toString() + " ";
-        }
-        System.out.println(orderDetails);
-
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -54,6 +44,7 @@ public class OrderServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
+        // get ID of a user that is making a transaction
         int userId = -1;
         try {
             userId = getUserId(username, getServletContext());
@@ -65,9 +56,11 @@ public class OrderServlet extends HttpServlet {
 
         if(userId != -1) {
             if(userBalance < totalPrice) {
+                //check if user has enough money to buy items in cart
                 request.setAttribute("messageOrder", "Transaction failed. Insufficient funds.");
             } else {
                 try {
+                    //update all data in database
                     addOrder(username, getServletContext());
                     addOrderDetails(getLastOrderId(username, getServletContext()), bookIDs, accessoryIDs, getServletContext());
                     updateBooksQuantity(bookIDs, getServletContext());
@@ -81,9 +74,10 @@ public class OrderServlet extends HttpServlet {
         }
 
         request.setAttribute("messageOrder", "Transaction completed. Thank you for your order!");
+        //remove items from cart by reseting both attributes
         session.setAttribute("bookCart", null);
         session.setAttribute("accessoriesCart", null);
-
+        //send the message to the page
         request.getRequestDispatcher("index.jsp?page=cart").forward(request, response);
 
     }

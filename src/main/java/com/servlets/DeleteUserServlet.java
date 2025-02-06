@@ -19,19 +19,18 @@ public class DeleteUserServlet extends HttpServlet {
             Class.forName("org.sqlite.JDBC");
             String path = getServletContext().getRealPath("/WEB-INF/database.db");
             String sql = "DELETE FROM Users WHERE Username = ?";
-
+            //execute query which deletes user from database
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, username);
-                pstmt.executeUpdate();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, username);
+                stmt.executeUpdate();
             }
-
             request.setAttribute("message", "User deleted successfully!");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("message", "An error occurred while deleting the user.");
         }
-
+        //send message to the page
         request.getRequestDispatcher("/UserListServlet").forward(request, response);
     }
 }

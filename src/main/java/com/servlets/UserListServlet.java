@@ -22,10 +22,12 @@ public class UserListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+        //checking if the user requesting is admin
         if (session != null && "admin".equals(session.getAttribute("role"))) {
             try {
                 List<User> users = getUsers();
                 request.setAttribute("users", users);
+                //send all data to the page
                 request.getRequestDispatcher("userlist.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -45,7 +47,7 @@ public class UserListServlet extends HttpServlet {
         Class.forName("org.sqlite.JDBC");
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
         String sql = "SELECT Username, Email, Role FROM Users";
-
+        //execute query that gets username, email and role of all users in database
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {

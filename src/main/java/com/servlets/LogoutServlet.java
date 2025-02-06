@@ -17,6 +17,7 @@ public class LogoutServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //logout user by invalidating session
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();

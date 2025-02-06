@@ -17,19 +17,20 @@ public class UpdateCartServlet extends HttpServlet {
 
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //default redirect to itself preventing unwanted get actions performed by user which can lead to malfunctions
         request.getRequestDispatcher("/index.jsp?page=cart").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //update quantity of items in the cart
         int bookID = -1;
         int bookQuantity = -1;
         if (request.getParameter("BookID") != null) {
             bookID = Integer.parseInt(request.getParameter("BookID"));
         }
-        System.out.println(bookID);
+
         if (request.getParameter("bookQuantity") != null) {
             bookQuantity = Integer.parseInt(request.getParameter("bookQuantity"));
         }
-        System.out.println(bookQuantity);
 
         int accessoryID = -1;
         int accessoryQuantity = -1;
@@ -37,11 +38,11 @@ public class UpdateCartServlet extends HttpServlet {
         if (request.getParameter("AccessoryID") != null) {
             accessoryID = Integer.parseInt(request.getParameter("AccessoryID"));
         }
-        System.out.println(accessoryID);
+
         if (request.getParameter("accessoryQuantity") != null) {
             accessoryQuantity = Integer.parseInt(request.getParameter("accessoryQuantity"));
         }
-        System.out.println(accessoryQuantity);
+
 
         HttpSession session = request.getSession();
 
@@ -98,6 +99,7 @@ public class UpdateCartServlet extends HttpServlet {
 
             session.setAttribute("accessoriesCart", accessoryIDs);
         }
+        //send the message to the page
         request.getRequestDispatcher("/index.jsp?page=cart").forward(request, response);
     }
 }

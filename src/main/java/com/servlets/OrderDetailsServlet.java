@@ -19,7 +19,7 @@ public class OrderDetailsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         ArrayList<Map<String, Object>> orderItems = new ArrayList<>();
-
+        //execute sql query that get all order details from database
         try {
             Class.forName("org.sqlite.JDBC");
             String path = getServletContext().getRealPath("/WEB-INF/database.db");
@@ -50,7 +50,7 @@ public class OrderDetailsServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //send all data to the page
         request.setAttribute("orderItems", orderItems);
         request.getRequestDispatcher("orderdetails.jsp").forward(request, response);
     }

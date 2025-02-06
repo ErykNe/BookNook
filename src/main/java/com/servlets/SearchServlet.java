@@ -23,12 +23,12 @@ public class SearchServlet extends HttpServlet {
         super();
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //default redirect to itself preventing unwanted get actions performed by user which can lead to malfunctions
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String searchStr = request.getParameter("search-input");
-        System.out.println(searchStr);
         books = new ArrayList<>();
 
         try {
@@ -38,7 +38,7 @@ public class SearchServlet extends HttpServlet {
         }
 
         String path = getServletContext().getRealPath("/WEB-INF/database.db");
-
+        //search for books basing on the input
         String sql = "SELECT * FROM Books WHERE BookTitle LIKE ? OR BookAuthor LIKE ?";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -47,7 +47,7 @@ public class SearchServlet extends HttpServlet {
             pstmt.setString(2, searchTerm);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                // Check if we have results
+                // check if we have results
                 boolean foundResults = false;
                 while (rs.next()) {
                     foundResults = true;

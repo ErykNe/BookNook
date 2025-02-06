@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 @WebServlet("/EditUserServlet")
 public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //get the user that is being edited by admin
         String username = request.getParameter("username");
         User user = null;
 
@@ -23,10 +24,7 @@ public class EditUserServlet extends HttpServlet {
             Class.forName("org.sqlite.JDBC");
             String path = getServletContext().getRealPath("/WEB-INF/database.db");
             String sql = "SELECT * FROM Users WHERE Username = ?";
-            System.out.println("Database path: " + path);
-            System.out.println("SQL Query: " + sql);
-            System.out.println("Username parameter: " + username);
-
+            //execute the query that gets all the data about the user
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, username);
@@ -38,9 +36,6 @@ public class EditUserServlet extends HttpServlet {
                         user.setPassword(rs.getString("Password"));
                         user.setEmail(rs.getString("Email"));
                         user.setRole(rs.getString("Role"));
-                        System.out.println("User found: " + user.getUsername());
-                    } else {
-                        System.out.println("User not found in the database.");
                     }
                 }
             }
@@ -49,6 +44,7 @@ public class EditUserServlet extends HttpServlet {
         }
 
         if (user != null) {
+            //send the data to the page
             request.setAttribute("user", user);
             request.getRequestDispatcher("/edituser.jsp").forward(request, response);
         } else {
@@ -67,9 +63,7 @@ public class EditUserServlet extends HttpServlet {
             Class.forName("org.sqlite.JDBC");
             String path = getServletContext().getRealPath("/WEB-INF/database.db");
             String sql = "UPDATE Users SET Username = ?, Password = ?, Email = ?, Role = ? WHERE Username = ?";
-            System.out.println("Database path: " + path);
-            System.out.println("SQL Query: " + sql);
-
+            //execute query updating data of user
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, newUsername);
@@ -79,11 +73,10 @@ public class EditUserServlet extends HttpServlet {
                 pstmt.setString(5, username);
 
                 int rowsUpdated = pstmt.executeUpdate();
+                //send the message to the page
                 if (rowsUpdated > 0) {
-                    System.out.println("User updated successfully.");
                     response.sendRedirect(request.getContextPath() + "/index.jsp");
                 } else {
-                    System.out.println("User not found in the database.");
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
                 }
             }

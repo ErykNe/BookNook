@@ -32,7 +32,6 @@ public class Utils {
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            // Iterate through the result set
             while (rs.next()) {
                 int id = rs.getInt("BookID");
                 String title = rs.getString("BookTitle");
@@ -71,23 +70,22 @@ public class Utils {
     }
 
     public static Map<Book, Integer> getBooksByIDs(Connection conn, ArrayList<Integer> bookIds) {
-        // Step 1: Count the frequency of each book ID in the list.
+        // count the frequency of each book ID in the list.
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         for (Integer bookId : bookIds) {
             frequencyMap.put(bookId, frequencyMap.getOrDefault(bookId, 0) + 1);
         }
 
-        // Step 2: For each unique book ID, query the database and store the result in a HashMap.
+        // for each unique book ID, query the database and store the result in a HashMap.
         Map<Book, Integer> booksWithCount = new HashMap<>();
         String sql = "SELECT * FROM Books WHERE BookID = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Loop over the unique book IDs
+
             for (Integer bookId : frequencyMap.keySet()) {
-                // Set the parameter in the prepared statement
                 stmt.setInt(1, bookId);
                 try (ResultSet rs = stmt.executeQuery()) {
-                    // If the book is found, create the BookDao and add it to the map with its count.
+                    // if the book is found, create the Book element and add it to the map with its count.
                     if (rs.next()) {
                         int id = rs.getInt("BookID");
                         String title = rs.getString("BookTitle");
