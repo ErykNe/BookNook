@@ -47,6 +47,7 @@
                     <%
                         if (books != null && !books.isEmpty()) {
                             for (Book book : books) {
+                                if(book.getQuantity() > 1 ){
                     %>
                     <tr class="item-row">
                         <td><img src="images/book.png"></td>
@@ -64,7 +65,7 @@
                         </td>
                         <% } %>
                     </tr>
-                    <%
+                    <%  }
                         }
                     } else {
                     %>
