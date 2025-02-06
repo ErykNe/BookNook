@@ -9,36 +9,40 @@
     ArrayList<Map<String, Object>> orderItems = (ArrayList<Map<String, Object>>) request.getAttribute("orderItems");
 %>
 
-<div>
-    <h1>Order Details</h1>
-    <%
-        if (orderItems != null && !orderItems.isEmpty()) {
-    %>
-    <table border="1">
-        <tr>
-            <th>Item Type</th>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
+<main>
+    <div>
+        <h2 style="text-align: center">Order Details</h2>
         <%
-            for (Map<String, Object> item : orderItems) {
+            if (orderItems != null && !orderItems.isEmpty()) {
         %>
-        <tr>
-            <td><%= item.get("ItemType") %></td>
-            <td><%= item.get("ItemName") %></td>
-            <td><%= item.get("Quantity") %></td>
-            <td>$<%= String.format("%.2f", item.get("ItemPrice")) %></td>
-        </tr>
+        <div class="tables" style="text-align: center; justify-content: center">
+        <table style="text-align: center">
+            <tr>
+                <th>Item Type</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <%
+                for (Map<String, Object> item : orderItems) {
+            %>
+            <tr>
+                <td><%= item.get("ItemType") %></td>
+                <td><%= item.get("ItemName") %></td>
+                <td><%= item.get("Quantity") %></td>
+                <td>$<%= String.format("%.2f", item.get("ItemPrice")) %></td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
+        </div>
+        <%
+        } else {
+        %>
+        <p>No items found for this order.</p>
         <%
             }
         %>
-    </table>
-    <%
-    } else {
-    %>
-    <p>No items found for this order.</p>
-    <%
-        }
-    %>
-</div>
+    </div>
+</main>

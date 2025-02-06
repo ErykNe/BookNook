@@ -37,35 +37,44 @@
         e.printStackTrace();
     }
 %>
+<main>
+    <div>
+        <h2 style="text-align: center">Your Orders</h2>
 
-<div class="orders">
-    <h1>Your Orders</h1>
-    <%
-        if (!orders.isEmpty()) {
-    %>
-    <table>
-        <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Details</th>
-        </tr>
         <%
-            for (Map<String, Object> order : orders) {
+            if (!orders.isEmpty()) {
         %>
-        <tr>
-            <td><%= order.get("OrderID") %></td>
-            <td><%= order.get("OrderDate") %></td>
-            <td><a href="OrderDetailsServlet?orderId=<%= order.get("OrderID") %>">View Details</a></td>
-        </tr>
+        <div class="tables" style="text-align: center; justify-content: center">
+            <table>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Details</th>
+                </tr>
+                <%
+                    for (Map<String, Object> order : orders) {
+                %>
+                <tr>
+                    <td><%= order.get("OrderID") %></td>
+                    <td><%= order.get("OrderDate") %></td>
+                    <td>
+                        <form action="<%=request.getContextPath()%>/OrderDetailsServlet" method="post">
+                            <input type="text" name="orderId" value="<%= order.get("OrderID") %>" style="display: none">
+                            <button type="submit">View Details</button>
+                        </form>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
+        </div>
+        <%
+        } else {
+        %>
+        <p>No orders found.</p>
         <%
             }
         %>
-    </table>
-    <%
-    } else {
-    %>
-    <p>No orders found.</p>
-    <%
-        }
-    %>
-</div>
+    </div>
+</main>

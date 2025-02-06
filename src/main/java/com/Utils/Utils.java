@@ -95,7 +95,6 @@ public class Utils {
                         double price = rs.getDouble("BookPrice");
                         int quantity = rs.getInt("Quantity");
 
-
                         Book book = new Book(id, title, author, price, quantity);
                         booksWithCount.put(book, frequencyMap.get(bookId));
                     }

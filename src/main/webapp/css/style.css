@@ -167,14 +167,19 @@ a{
     color: cadetblue;
     padding: 5px;
 }
-.admin-panel:hover,.orders:hover,.add:hover{
+.admin-panel:hover,.add:hover{
     background-color: #555;
     border-radius: 5px;
 }
 .orders{
+    margin-left: 10px;
+    margin-right: 10px;
     color: white;
-    margin-left: 5px;
     padding: 5px;
+    text-decoration: none;
+}
+.orders:visited{
+    color: white;
 }
 .add{
     color: white;

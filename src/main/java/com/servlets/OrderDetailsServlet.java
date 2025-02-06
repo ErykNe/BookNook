@@ -16,7 +16,7 @@ import java.sql.DriverManager;
 
 @WebServlet("/OrderDetailsServlet")
 public class OrderDetailsServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         ArrayList<Map<String, Object>> orderItems = new ArrayList<>();
 
