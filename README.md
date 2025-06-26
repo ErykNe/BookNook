@@ -1,10 +1,10 @@
-# Book Shop
+# BookShop PRO
 
 This is a web application that allows users to search for books and accessories, add them to a cart, and place orders. This application is built using Java.
 
 ## Prerequisites
 
-To run the BookNook application, you need to have the following installed:
+To run the BookShop PRO application, you need to have the following installed:
 
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or higher)
 - [Apache Maven](https://maven.apache.org/download.cgi) (version 3.9.9)
@@ -13,11 +13,11 @@ To run the BookNook application, you need to have the following installed:
 
 ## Running the Application
 
-Follow these steps to run the BookNook application:
+Follow these steps to run the BookShop PRO application:
 
 ### Step 1: UnZip Project
 
-- Unzip .zip file BookNook.zip to Desktop
+- Unzip .zip file BookShopPRO.zip to Desktop
 - You should to have folder with the project now in folder BookNook-main on the Desktop.
 - open cmd and navigate to BookNook-main
 
@@ -27,7 +27,7 @@ Follow these steps to run the BookNook application:
 - then type: ```copy target\BookNook.war C:\path\to\tomcat\webapps\```
 - next type: ```cd C:\path\to\tomcat\bin```
 - type: ```startup.bat```
-- Open your browser and go to http://localhost:8080/BookNook
+- Open your browser and go to http://localhost:8080/BookShopPRO
 
 ## Login Details
 For every account password is the same as username for example:
