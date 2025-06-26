@@ -1,6 +1,6 @@
 # Book Shop
 
-BookNook is a web application that allows users to search for books and accessories, add them to a cart, and place orders. This application is built using Java.
+This is a web application that allows users to search for books and accessories, add them to a cart, and place orders. This application is built using Java.
 
 ## Prerequisites
 
